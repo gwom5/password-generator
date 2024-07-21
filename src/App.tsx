@@ -1,10 +1,12 @@
-import React, {useState} from "react";
-import "./App.css";
-import CopyIdle from "./components/icons/CopyIdle";
-import ArrowLeft from "./components/icons/ArrowLeft";
+import React, {useEffect, useState} from "react";
+import SelectorInput from "./components/selectorInput/SelectorInput";
+import StrengthIndicator from "./components/strengthIndicator/StrengthIndicator";
+import Copy from "./components/copy/Copy";
+import Button from "./components/button/Button";
 
 const App = () => {
-    const [charLength, setCharLength] = useState(4);
+    const [password, setPassword] = useState('');
+    const [charLength, setCharLength] = useState(0);
     const [options, setOptions] = useState({
         uppercase: false,
         lowercase: false,
@@ -12,8 +14,38 @@ const App = () => {
         symbols: false
     });
 
+    const optionList = [
+        { name: 'uppercase', label: 'Include Uppercase Letters' },
+        { name: 'lowercase', label: 'Include Lowercase Letters' },
+        { name: 'numbers', label: 'Include Numbers' },
+        { name: 'symbols', label: 'Include Symbols' },
+    ];
+
+    const generatePassword = () => {
+        const { uppercase, lowercase, numbers, symbols } = options;
+        const uppercaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const lowercaseLetters = 'abcdefghijklmnopqrstuvwxyz';
+        const numChars = '0123456789';
+        const symbolsChars = '!@#$%^&*()_+[]{}|;:,.<>?';
+        let characters = '';
+        if (uppercase) characters += uppercaseLetters;
+        if (lowercase) characters += lowercaseLetters;
+        if (numbers) characters += numChars;
+        if (symbols) characters += symbolsChars;
+        let passwordVal = '';
+
+        for (let i = 0; i < charLength; i++) {
+            passwordVal += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        setPassword(passwordVal);
+    }
+
     const handleCharLength = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCharLength(parseInt(e.target.value));
+        const value = Number(e.target.value);
+        setCharLength(value);
+        const percentage = (value / 20) * 100;
+        document.documentElement.style.setProperty('--slider-value', `${percentage}%`);
     }
 
     const handleCheckboxChange = (event) => {
@@ -21,60 +53,29 @@ const App = () => {
         setOptions((prev) => ({ ...prev, [name]: checked }));
     };
 
+    useEffect(() => {
+        document.documentElement.style.setProperty('--slider-value', '0%');
+    }, []);
+
+
     return (
         <div className="flex flex-col justify-center items-center bg-black min-h-screen text-white font-jetbrains">
             <h1 className="text-gray-600 font-bold my-4 text-xl">Password Generator</h1>
             <div className="lg:w-1/4 text-gray-300 text-md">
-                <div className="flex mb-5 py-6 px-6 bg-zinc-900 justify-between items-center">
-                    <p className="text-3xl">PTx1f5DaFX</p>
-                    <div>
-                        <button className="text-green-400 hover:text-green-500">
-                            <CopyIdle />
-                        </button>
-                    </div>
+                <div className="flex mb-5 py-6 px-6 bg-zinc-900 justify-between items-center space-x-2">
+                    <p className={`lg:text-2xl text-xl ${password ? '' :  'text-gray-800'} overflow-x-auto`}>{password ? password : 'PTx1f5DaFX'}</p>
+                    <Copy password={password} />
                 </div>
                 <div className="flex flex-col py-6 px-6 bg-zinc-900 justify-between">
-                    <div className="flex justify-between items-center">
-                        <h1 className="text-md">Character Length</h1>
-                        <p className="text-green-400 text-3xl">{charLength}</p>
-                    </div>
-                    <div className="my-5">
-                        <input type="range" min="0" max="20" step={2} value={charLength} onChange={handleCharLength} className="custom-slider" />
-                    </div>
-                    <div className="flex flex-col items-start space-y-5">
-                        {
-                            [
-                                { name: 'uppercase', label: 'Include Uppercase Letters' },
-                                { name: 'lowercase', label: 'Include Lowercase Letters' },
-                                { name: 'numbers', label: 'Include Numbers' },
-                                { name: 'symbols', label: 'Include Symbols' },
-                            ].map((item, index) => (
-                                <label key={index} className="flex items-center space-x-5">
-                                    <input
-                                        type="checkbox"
-                                        name={item.name}
-                                        checked={options[item.name]}
-                                        onChange={handleCheckboxChange}
-                                        className="custom-checkbox"
-                                    />
-                                    <span>{item.label}</span>
-                                </label>
-                            ))
-                        }
-                    </div>
-                    <div className="flex my-5 py-6 px-6 bg-gray-950 justify-between items-center">
-                        <h1 className="text-gray-500 text-sm font-semibold">STRENGTH</h1>
-                        <div className="flex space-x-3 items-center">
-                            <h1 className="text-xl">MEDIUM</h1>
-                            <div>Indic</div>
-                        </div>
-                    </div>
-                    <div>
-                        <button className="flex justify-center items-center space-x-4 w-full py-3 bg-green-500 text-black hover:bg-transparent hover:border-2 border-green-400 hover:text-green-400">
-                            <h1>GENERATE</h1>
-                            <ArrowLeft />
-                        </button>
-                    </div>
+                    <SelectorInput
+                        optionsList={optionList}
+                        charLength={charLength}
+                        options={options}
+                        handleCharLength={handleCharLength}
+                        handleCheckboxChange={handleCheckboxChange}
+                    />
+                    <StrengthIndicator options={options} charLength={charLength} />
+                    <Button generatePassword={generatePassword} />
                 </div>
             </div>
         </div>
