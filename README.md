@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+# Password Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This is a simple password generator application built with React, styled using Tailwind CSS, and configured with Vite. The application allows users to generate passwords of varying lengths and complexity levels based on selected criteria. The password strength is visually indicated through a slider and a set of checkboxes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Range Slider**: Adjusts the length of the generated password, ranging from 0 to 20 characters in increments of 4.
+- **Checkbox Options**: Includes options to toggle uppercase letters, lowercase letters, numbers, and symbols in the password.
+- **Strength Indicator**: Displays the strength of the password using a set of bars that fill in based on the selected options and password length.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Technologies Used
 
-- Configure the top-level `parserOptions` property like this:
+- **React**: Frontend library for building user interfaces.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Vite**: Next-generation frontend tooling for faster builds and improved development experience.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## Installation
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To set up this project locally, follow these steps:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/your-username/password-generator.git
+2. ** Navigate to the Project Directory**
+   ```bash
+    cd password-generator
+3. **Install Dependencies**
+    ```bash
+    yarn install
+4. **Start the Development Server**
+    ```bash
+    yarn dev
+5. **Open the Application**
+    ```bash
+    Open [http://localhost:5173](http://localhost:5173) in your browser.
