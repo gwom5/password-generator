@@ -46,10 +46,10 @@ const StrengthIndicator = ({ charLength, options }) => {
 
     return (
         <>
-            <div className="flex my-5 py-6 px-6 bg-gray-950 justify-between items-center">
-                <h1 className="text-gray-500 text-sm font-semibold">STRENGTH</h1>
+            <div className="flex my-5 py-6 px-6 bg-gray-950 justify-between items-center space-x-3">
+                <h1 className="text-gray-500 text-xs md:text-sm font-semibold">STRENGTH</h1>
                 <div className="flex space-x-3 items-center">
-                    <h1 className="text-xl">{strength}</h1>
+                    <h1 className="md:text-xl text-md">{strength}</h1>
                     <div className="flex space-x-2">{renderStrengthBars()}</div>
                 </div>
             </div>
